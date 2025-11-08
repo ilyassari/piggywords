@@ -163,7 +163,7 @@ fun AddWordScreen(
                 )
             )
 
-            // Word Type Selection with Chips - Compact Design
+            // Word Type Selection with Chips
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = MaterialTheme.shapes.large,
@@ -172,114 +172,60 @@ fun AddWordScreen(
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
-                        Icon(
-                            Icons.Default.Category,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Text(
-                            text = "Word Type",
-                            style = MaterialTheme.typography.titleSmall.copy(
-                                fontWeight = FontWeight.SemiBold
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                Icons.Default.Category,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
                             )
+                            Text(
+                                text = "Word Type",
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            )
+                        }
+                        Text(
+                            text = "(Select one or more)",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                         )
                     }
 
-                    // Display word types in a compact grid layout
-                    Column(
+                    // All word types in one FlowRow
+                    FlowRow(
                         modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        // Grammar Categories (1-8)
-                        Text(
-                            text = "Grammar",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        FlowRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            (1..8).forEach { typeId ->
-                                val typeName = wordTypesMap[typeId] ?: ""
-                                FilterChip(
-                                    selected = selectedWordTypes.contains(typeId),
-                                    onClick = {
-                                        selectedWordTypes = if (selectedWordTypes.contains(typeId)) {
-                                            selectedWordTypes - typeId
-                                        } else {
-                                            selectedWordTypes + typeId
-                                        }
-                                    },
-                                    label = {
-                                        Text(
-                                            text = typeName,
-                                            style = MaterialTheme.typography.bodySmall
-                                        )
-                                    },
-                                    leadingIcon = if (selectedWordTypes.contains(typeId)) {
-                                        {
-                                            Icon(
-                                                imageVector = Icons.Default.Check,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(16.dp)
-                                            )
-                                        }
-                                    } else null,
-                                    modifier = Modifier.height(32.dp)
+                        (1..15).forEach { typeId ->
+                            val typeName = wordTypesMap[typeId] ?: ""
+                            FilterChip(
+                                selected = selectedWordTypes.contains(typeId),
+                                onClick = {
+                                    selectedWordTypes = if (selectedWordTypes.contains(typeId)) {
+                                        selectedWordTypes - typeId
+                                    } else {
+                                        selectedWordTypes + typeId
+                                    }
+                                },
+                                label = { Text(typeName) },
+                                leadingIcon = null,
+                                modifier = Modifier.height(32.dp),
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = com.ellez.piggywords.ui.theme.TealDark,
+                                    selectedLabelColor = androidx.compose.ui.graphics.Color.White
                                 )
-                            }
-                        }
-
-                        // Usage/Style Categories (9-15)
-                        Text(
-                            text = "Usage & Style",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        FlowRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp)
-                        ) {
-                            (9..15).forEach { typeId ->
-                                val typeName = wordTypesMap[typeId] ?: ""
-                                FilterChip(
-                                    selected = selectedWordTypes.contains(typeId),
-                                    onClick = {
-                                        selectedWordTypes = if (selectedWordTypes.contains(typeId)) {
-                                            selectedWordTypes - typeId
-                                        } else {
-                                            selectedWordTypes + typeId
-                                        }
-                                    },
-                                    label = {
-                                        Text(
-                                            text = typeName,
-                                            style = MaterialTheme.typography.bodySmall
-                                        )
-                                    },
-                                    leadingIcon = if (selectedWordTypes.contains(typeId)) {
-                                        {
-                                            Icon(
-                                                imageVector = Icons.Default.Check,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(16.dp)
-                                            )
-                                        }
-                                    } else null,
-                                    modifier = Modifier.height(32.dp)
-                                )
-                            }
+                            )
                         }
                     }
 
@@ -288,7 +234,7 @@ fun AddWordScreen(
                         HorizontalDivider()
                         Text(
                             text = "Selected: ${WordTypes.getTypeNames(selectedWordTypes.toList())}",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Medium
                         )

@@ -193,12 +193,12 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 StatCard(
-                    icon = Icons.Default.Star,
-                    value = "$masteredCount",
-                    label = "Mastered",
-                    color = MaterialTheme.colorScheme.tertiary,
+                    icon = Icons.Default.FiberNew,
+                    value = "$newCount",
+                    label = "New Words",
+                    color = Color(0xFFFF9800),
                     modifier = Modifier.weight(1f),
-                    onClick = { onNavigateToWordList(null, "MASTERED") }
+                    onClick = { onNavigateToWordList(null, "NEW") }
                 )
 
                 StatCard(
@@ -212,12 +212,12 @@ fun HomeScreen(
             }
 
             StatCard(
-                icon = Icons.Default.FiberNew,
-                value = "$newCount",
-                label = "New Words",
-                color = Color(0xFFFF9800),
+                icon = Icons.Default.Star,
+                value = "$masteredCount",
+                label = "Mastered",
+                color = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onNavigateToWordList(null, "NEW") }
+                onClick = { onNavigateToWordList(null, "MASTERED") }
             )
         }
 
@@ -341,33 +341,44 @@ fun StatCard(
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(color.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center
+            // Icon and Value side by side
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = color,
-                    modifier = Modifier.size(28.dp)
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(color.copy(alpha = 0.15f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = color,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = color
                 )
             }
 
-            Text(
-                text = value,
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.Bold
-                ),
-                color = color
-            )
+            // Label at bottom
             Text(
                 text = label,
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

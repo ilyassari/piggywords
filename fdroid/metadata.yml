@@ -1,0 +1,76 @@
+Categories:
+  - Science & Education
+
+License: GPL-3.0-or-later
+
+AuthorName: ilyassari
+AuthorEmail:
+SourceCode: https://github.com/ilyassari/piggywords
+IssueTracker: https://github.com/ilyassari/piggywords/issues
+Changelog: https://github.com/ilyassari/piggywords/blob/main/CHANGELOG.md
+
+AutoName: PiggyWords
+
+Summary: Learn English vocabulary with smart flashcards
+
+Description: |-
+  PiggyWords is an open-source flashcard application designed for learning English 
+  vocabulary using a spaced repetition algorithm. The app is completely offline, 
+  ad-free, and respects your privacy.
+  
+  '''Features:'''
+  
+  * Smart spaced repetition algorithm with configurable intervals
+  * Flash card study mode with interactive flip animation
+  * Option for daily study limits 
+  * Add custom words with definitions and example sentences
+  * Image support from gallery
+  * 15 word types: Noun, Verb, Adjective, Phrasal Verb, Idiom, and more
+  * Filter by level, word type, or search
+  * 100% Jetpack Compose UI
+  * Offline-first architecture
+  * No ads, no tracking
+  
+  '''Technical Details:'''
+  
+  * MVVM architecture pattern
+  * Room Database for local storage
+  * Kotlin 2.0.0
+  * Minimum SDK 24 (Android 7.0)
+  
+  '''Beta Status:'''
+  
+  This is a beta version (0.1.0). The app is stable for daily use but some 
+  features are still under development. Feedback and bug reports are welcome 
+  via GitHub Issues.
+
+RepoType: git
+Repo: https://github.com/ilyassari/piggywords.git
+
+Builds:
+  - versionName: '0.1.0'
+    versionCode: 1
+    commit: v0.1.0
+    subdir: app
+    sudo:
+      - apt-get update
+      - apt-get install -y openjdk-17-jdk-headless
+      - update-java-alternatives -a
+    gradle:
+      - yes
+    prebuild: sed -i -e '/google()/d' -e '/mavenCentral()/a\        mavenCentral()\n        google()' ../build.gradle.kts
+    scandelete:
+      - gradle/wrapper/gradle-wrapper.jar
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: '0.1.0'
+CurrentVersionCode: 1
+
+# Notes for F-Droid maintainers:
+# - This app has no proprietary dependencies
+# - Build uses Gradle 8.9
+# - Requires JDK 17
+# - All dependencies are from Maven Central and Google Maven
+# - No Firebase, Google Play Services, or other proprietary libraries
+# - Fully reproducible build

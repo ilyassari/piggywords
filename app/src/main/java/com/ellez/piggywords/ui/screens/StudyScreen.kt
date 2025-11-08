@@ -350,6 +350,9 @@ fun SwipeableCard(
         ), label = "card rotation"
     )
 
+    // Calculate alpha based on swipe distance (make card transparent when swiping)
+    val swipeAlpha = 1f - (abs(offsetX.value) / 400f).coerceIn(0f, 0.7f)
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -363,7 +366,8 @@ fun SwipeableCard(
                     translationX = offsetX.value
                     rotationZ = rotation.value
                     this.rotationY = rotationY
-                    alpha = if (rotationY < 90f) 1f else 0f
+                    // Combine rotation visibility with swipe transparency
+                    alpha = if (rotationY < 90f) swipeAlpha else 0f
                     cameraDistance = 12f * density
                 }
                 // Use zIndex to control layering - visible card should be on top
@@ -438,7 +442,8 @@ fun SwipeableCard(
                     translationX = offsetX.value
                     rotationZ = rotation.value
                     this.rotationY = rotationY - 180f  // Starts at -180°, ends at 0°
-                    alpha = if (rotationY >= 90f) 1f else 0f
+                    // Combine rotation visibility with swipe transparency
+                    alpha = if (rotationY >= 90f) swipeAlpha else 0f
                     cameraDistance = 12f * density
                 }
                 .pointerInput(Unit) {
