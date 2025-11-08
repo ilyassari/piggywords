@@ -25,13 +25,9 @@
 - ➕ **Add Custom Words** - Create your own vocabulary with definitions and translations
 - 🖼️ **Image Support** - Add images from gallery to enhance memorization
 - 🏷️ **Multiple Word Types** - Support for 15 types: Noun, Verb, Adjective, Phrasal Verb, Idiom, and more
-- 🌍 **9 Language Translations** - Turkish, Portuguese, Russian, Chinese, Japanese, Arabic, Spanish, Hindi, Indonesian
-- 📈 **6 Proficiency Levels** - Organize words by CEFR levels (A1, A2, B1, B2, C1, C2)
-- 🔍 **Smart Filtering** - Filter by level, word type, or search by keyword
 
 ### Design & Experience
 - 🎨 **Material Design 3** - Modern, clean interface
-- 🌙 **Dark/Light Theme** - Comfortable viewing in any lighting
 - 📱 **100% Jetpack Compose** - Modern Android UI toolkit
 - 🔒 **Offline-First** - No internet connection required
 - 🚫 **No Ads, No Tracking** - Your privacy matters
