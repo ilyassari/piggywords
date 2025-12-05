@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ellez.piggywords.ui.viewmodel.WordViewModel
+import com.ellez.piggywords.util.WordStatus
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,10 +52,16 @@ fun HomeScreen(
         label = "progress_animation"
     )
 
-    // Calculate counts once
-    val masteredCount = remember(allWords) { allWords.count { it.learningLevel >= 6 } }
-    val learningCount = remember(allWords) { allWords.count { it.learningLevel in 1..5 } }
-    val newCount = remember(allWords) { allWords.count { it.learningLevel == 0 } }
+    // Calculate counts once - Use lastReviewedDate for accurate status
+    val masteredCount = remember(allWords) {
+        allWords.count { WordStatus.isMastered(it.learningLevel) }
+    }
+    val learningCount = remember(allWords) {
+        allWords.count { WordStatus.isLearning(it.learningLevel, it.lastReviewedDate) }
+    }
+    val newCount = remember(allWords) {
+        allWords.count { WordStatus.isNew(it.lastReviewedDate) }
+    }
 
     // Scroll state for the entire screen
     val scrollState = rememberScrollState()
