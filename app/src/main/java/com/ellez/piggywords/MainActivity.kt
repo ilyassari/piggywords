@@ -61,6 +61,7 @@ fun PiggyWordsApp(
 
     // Hide bottom bar on detail screens
     val showBottomBar = currentDestination?.route?.startsWith("word_detail/") != true &&
+            currentDestination?.route?.startsWith("edit_word/") != true &&
             currentDestination?.route != "word_list"
 
     Scaffold(
@@ -370,7 +371,21 @@ fun PiggyWordsApp(
                 WordDetailScreen(
                     wordId = wordId,
                     viewModel = viewModel,
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToEdit = { id ->
+                        navController.navigate("edit_word/$id")
+                    }
+                )
+            }
+            composable("edit_word/{wordId}") { backStackEntry ->
+                val wordId = backStackEntry.arguments?.getString("wordId")?.toIntOrNull() ?: 0
+                EditWordScreen(
+                    wordId = wordId,
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() },
+                    onWordUpdated = {
+                        navController.popBackStack()
+                    }
                 )
             }
         }
