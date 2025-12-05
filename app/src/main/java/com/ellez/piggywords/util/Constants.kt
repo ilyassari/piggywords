@@ -1,6 +1,59 @@
 package com.ellez.piggywords.util
 
 /**
+ * Word Status Constants
+ *
+ * Defines the learning status of a word based on review history
+ *
+ * Note: Suppressing "unused" warnings as these will be used after implementation
+ */
+@Suppress("unused")
+object WordStatus {
+    private const val MASTERY_LEVEL = 6  // Level 6 and above = mastered
+
+    /**
+     * Determine word status based on learning level and review history
+     *
+     * @param learningLevel Current learning level of the word
+     * @param lastReviewedDate Last review date (null if never reviewed)
+     * @return Status string: "NEW", "LEARNING", or "MASTERED"
+     */
+    fun getStatus(learningLevel: Int, lastReviewedDate: String?): String {
+        return when {
+            // Never reviewed = NEW
+            lastReviewedDate == null -> "NEW"
+
+            // Reviewed but not mastered = LEARNING
+            learningLevel < MASTERY_LEVEL -> "LEARNING"
+
+            // Mastered = MASTERED
+            else -> "MASTERED"
+        }
+    }
+
+    /**
+     * Check if word is truly new (never reviewed before)
+     */
+    fun isNew(lastReviewedDate: String?): Boolean {
+        return lastReviewedDate == null
+    }
+
+    /**
+     * Check if word is in learning phase
+     */
+    fun isLearning(learningLevel: Int, lastReviewedDate: String?): Boolean {
+        return lastReviewedDate != null && learningLevel < MASTERY_LEVEL
+    }
+
+    /**
+     * Check if word is mastered
+     */
+    fun isMastered(learningLevel: Int): Boolean {
+        return learningLevel >= MASTERY_LEVEL
+    }
+}
+
+/**
  * Word Type Constants
  *
  * Defines 15 categories for word classification:
@@ -160,7 +213,7 @@ object WordTypes {
             ADJECTIVE -> "🎨"
             ADVERB -> "🔄"
             PRONOUN -> "👤"
-            PREPOSITION -> "📍"
+            PREPOSITION -> "🔗"
             CONJUNCTION -> "🔗"
             INTERJECTION -> "💬"
             PHRASE -> "💭"

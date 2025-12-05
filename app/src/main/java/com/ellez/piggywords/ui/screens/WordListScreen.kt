@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ellez.piggywords.data.local.WordCard
 import com.ellez.piggywords.ui.viewmodel.WordViewModel
+import com.ellez.piggywords.util.WordStatus
 import com.ellez.piggywords.util.WordTypes
 import java.util.Locale
 
@@ -150,12 +151,12 @@ fun WordListScreen(
                     }
                 }
 
-                // Level filter
+                // Level filter - Use lastReviewedDate for accurate status
                 val matchesLevel = when (selectedLevelFilter) {
                     LevelFilter.ALL -> true
-                    LevelFilter.NEW -> word.learningLevel == 0
-                    LevelFilter.LEARNING -> word.learningLevel in 1..5
-                    LevelFilter.MASTERED -> word.learningLevel >= 6
+                    LevelFilter.NEW -> word.lastReviewedDate == null  // Never reviewed
+                    LevelFilter.LEARNING -> word.lastReviewedDate != null && word.learningLevel < 6  // Reviewed but not mastered
+                    LevelFilter.MASTERED -> word.learningLevel >= 6  // Mastered
                 }
 
                 matchesSearch && matchesPending && matchesType && matchesLevel
@@ -561,6 +562,9 @@ fun WordListItem(
     val typeIds = WordTypes.stringToTypeList(word.wordType)
     val displayType = WordTypes.getTypeNames(typeIds)
 
+    // Determine correct status
+    val status = WordStatus.getStatus(word.learningLevel, word.lastReviewedDate)
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -672,17 +676,18 @@ fun WordListItem(
             }
 
             // Level Badge
-            LevelBadge(learningLevel = word.learningLevel)
+            LevelBadge(status = status)
         }
     }
 }
 
 @Composable
-fun LevelBadge(learningLevel: Int) {
-    val (label, color) = when (learningLevel) {
-        0 -> "New" to Color(0xFFFF9800)
-        in 1..5 -> "Learning" to MaterialTheme.colorScheme.primary
-        else -> "Mastered" to MaterialTheme.colorScheme.tertiary
+fun LevelBadge(status: String) {
+    val (label, color) = when (status) {
+        "NEW" -> "New" to Color(0xFFFF9800)
+        "LEARNING" -> "Learning" to MaterialTheme.colorScheme.primary
+        "MASTERED" -> "Mastered" to MaterialTheme.colorScheme.tertiary
+        else -> "Unknown" to MaterialTheme.colorScheme.onSurfaceVariant
     }
 
     Box(
@@ -696,10 +701,11 @@ fun LevelBadge(learningLevel: Int) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                imageVector = when (learningLevel) {
-                    0 -> Icons.Default.FiberNew
-                    in 1..5 -> Icons.Default.School
-                    else -> Icons.Default.Star
+                imageVector = when (status) {
+                    "NEW" -> Icons.Default.FiberNew
+                    "LEARNING" -> Icons.Default.School
+                    "MASTERED" -> Icons.Default.Star
+                    else -> Icons.AutoMirrored.Filled.Help
                 },
                 contentDescription = null,
                 tint = color,
