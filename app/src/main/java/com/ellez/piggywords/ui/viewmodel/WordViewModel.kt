@@ -115,8 +115,7 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Note: updateWord is kept for future edit functionality
-    @Suppress("unused")
+    // Update existing word
     fun updateWord(word: WordCard) {
         viewModelScope.launch {
             repository.updateWord(word)

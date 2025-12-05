@@ -35,7 +35,8 @@ import java.util.Locale
 fun WordDetailScreen(
     wordId: Int,
     viewModel: WordViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToEdit: (Int) -> Unit
 ) {
     val context = LocalContext.current
     val allWords by viewModel.allWords.collectAsState()
@@ -81,6 +82,15 @@ fun WordDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { onNavigateToEdit(wordId) }) {
+                        Icon(
+                            Icons.Default.Edit,
+                            contentDescription = "Edit word",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                 }
             )
