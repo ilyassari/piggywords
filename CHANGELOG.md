@@ -13,6 +13,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flashcard word images
 - Dark/Light theme support
 
+## [0.1.1] - 2024-12-06
+
+### Added
+- Edit word feature with full CRUD support
+  - All fields editable: word, definition, translation, sentence, level, type, and image
+  - Learning progress preserved (learningLevel and nextReviewDate remain unchanged)
+  - Change detection prevents unnecessary saves
+
+### Fixed
+- Word status classification logic
+  - NEW words now correctly exclude reviewed words
+  - Classification now uses `lastReviewedDate` instead of `learningLevel`
+  - NEW = never reviewed (`lastReviewedDate == null`)
+  - LEARNING = reviewed at least once (`lastReviewedDate != null && level < 6`)
+  - MASTERED = level >= 6
+
+
 ## [0.1.0] - 2025-11-08
 ### Added
 - Initial beta release
@@ -67,6 +84,7 @@ This is a beta version (0.1.0). The app is stable for daily use but some feature
 
 | Version | Release Date | Type | Highlights |
 |---------|--------------|------|------------|
+| 0.1.1 | 2024-12-06 | Beta | Edit word feature, word status classification fix |
 | 0.1.0 | 2025-11-08 | Beta | Initial public beta release |
 
 ---

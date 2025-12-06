@@ -245,3 +245,8 @@ GitHub.sublime-settings
 .firebase/
 *-debug.log
 .runtimeconfig.json
+
+# Keystore files - NEVER COMMIT!
+*.jks
+*.keystore
+piggywords-keystore.jks
